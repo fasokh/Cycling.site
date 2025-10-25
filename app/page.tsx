@@ -43,7 +43,7 @@ const Routspage = () => {
         {routs?.map((rout) => (
           <li key={rout.id}>
             {rout.name} {rout.date} {rout.distace} km
-            <GpxMap gpxFile="/routes/loutUltraCycling.gpx" />
+            <GpxMap gpxFile={rout.gpxFile} />
           </li>
         ))}
       </ul>

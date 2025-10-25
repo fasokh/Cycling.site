@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { MapContainer, TileLayer } from "react-leaflet";
+import { useEffect, useState } from "react";
+import { MapContainer, TileLayer, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import "leaflet-gpx";
@@ -10,13 +10,11 @@ interface GPXMapProps {
   gpxFile: string;
 }
 
-const GpxMap = ({ gpxFile }: GPXMapProps) => {
-  const mapRef = useRef<L.Map | null>(null);
+const GPXLoader = ({ gpxFile }: { gpxFile: string }) => {
+  const map = useMap();
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    if (!mapRef.current) return;
-
     const gpxLayer = new (L as any).GPX(gpxFile, {
       async: true,
       marker_options: {
@@ -29,7 +27,7 @@ const GpxMap = ({ gpxFile }: GPXMapProps) => {
     gpxLayer.on("loaded", (e: any) => {
       const bounds = e.target.getBounds();
       console.log("✅ GPX loaded:", bounds.toBBoxString());
-      mapRef.current?.fitBounds(bounds);
+      map.fitBounds(bounds);
       setLoaded(true);
     });
 
@@ -37,18 +35,22 @@ const GpxMap = ({ gpxFile }: GPXMapProps) => {
       console.error("❌ GPX load error:", err);
     });
 
-    gpxLayer.addTo(mapRef.current);
+    gpxLayer.addTo(map);
 
     return () => {
       gpxLayer.remove();
     };
-  }, [gpxFile]);
+  }, [gpxFile, map]);
 
+  if (!loaded) return <p>در حال بارگذاری مسیر...</p>;
+  return null;
+};
+
+const GpxMap = ({ gpxFile }: GPXMapProps) => {
   return (
     <div style={{ marginBottom: "40px" }}>
-      {!loaded && <p>در حال بارگذاری مسیر...</p>}
       <MapContainer
-        key={gpxFile} // این باعث میشه هر فایل GPX یک MapContainer جدید بسازه
+        key={gpxFile}
         center={[32.0, 54.0]}
         zoom={6}
         style={{ height: "400px", width: "100%" }}
@@ -57,6 +59,7 @@ const GpxMap = ({ gpxFile }: GPXMapProps) => {
           attribution="© OpenStreetMap contributors"
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
+        <GPXLoader gpxFile={gpxFile} />
       </MapContainer>
     </div>
   );
