@@ -1,6 +1,5 @@
 "use client";
 
-
 import dynamic from "next/dynamic";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/src/firebase/firebaseConfig";
@@ -14,8 +13,6 @@ interface Route {
   description: string;
   gpxFile: string;
 }
-
-
 
 const GpxMap = dynamic(() => import("@/src/components/GpxMap"), { ssr: false });
 
@@ -62,7 +59,7 @@ const Routspage = () => {
                 {rout.distance} km
               </div>
             </div>
-            <div className="w-1/2 max-w-[360px] rounded-lg overflow-hidden shadow-sm border border-gray-300">
+            <div className="flex-1 min-w-[300px] max-w-[400px] rounded-lg overflow-hidden shadow-sm border border-gray-300">
               <GpxMap gpxFile={rout.gpxFile} />
             </div>
           </li>
