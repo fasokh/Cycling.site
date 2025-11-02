@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { MapContainer, TileLayer, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import L from "leaflet";
+import L, { polyline } from "leaflet";
 import "leaflet-gpx";
 
 interface GPXMapProps {
@@ -22,6 +22,11 @@ const GPXLoader = ({ gpxFile }: { gpxFile: string }) => {
         startIconUrl: "/marker-icon.png",
         endIconUrl: "/marker-icon.png",
         shadowUrl: "/marker-shadow.png",
+      },
+      polyline_options: {
+        color: "red",
+        weight: 4,
+        opacity: 0.8,
       },
     });
 
@@ -55,7 +60,12 @@ const GpxMap = ({ gpxFile }: GPXMapProps) => {
         key={gpxFile}
         center={[32.0, 54.0]} // تقریبا وسط ایران رو نشون میده بعد با fitBounds نقشه خودش میره روی محدوده واقعی
         zoom={6}
-        style={{ height: "400px", width: "100%" }}
+        style={{
+          borderRadius: "12px",
+          overflow: "hidden",
+          boxShadow: "0 0 8px rgba(0,0,0,0.15)",
+        }}
+        className="h-[200px] w-full"
       >
         <TileLayer //فقط زمین و نقشه عمومی رو نشون میده
           attribution="© OpenStreetMap contributors"
