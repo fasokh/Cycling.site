@@ -55,7 +55,7 @@ const Routspage = () => {
               <div className="text-sm text-gray-700 leading-6">
                 {rout.description}
               </div>
-              <div className="text-sm text-gray-800 fontm">
+              <div className="text-sm text-gray-800 font-medium">
                 {rout.distance} km
               </div>
             </div>

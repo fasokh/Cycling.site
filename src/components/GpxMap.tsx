@@ -3,22 +3,27 @@
 import { useEffect, useState } from "react";
 import { MapContainer, TileLayer, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import L, { polyline } from "leaflet";
+import L, { bounds, polyline } from "leaflet";
 import "leaflet-gpx";
 
 interface GPXMapProps {
   gpxFile: string;
 }
 
-const GPXLoader = ({ gpxFile }: { gpxFile: string }) => {
-  const map = useMap(); //به شی اصلی leaflet دسترسی پیدا میکنیم
+const GPXLoader = ({
+  gpxFile,
+  setLinks,
+}: {
+  gpxFile: string;
+  setLinks: any;
+}) => {
+  const map = useMap();
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
     const gpxLayer = new (L as any).GPX(gpxFile, {
-      async: true, // میگیم که میتونه غیرهمزمان کار  کنه
+      async: true,
       marker_options: {
-        //شکل مسیر رو مشخص میکنیم
         startIconUrl: "/marker-icon.png",
         endIconUrl: "/marker-icon.png",
         shadowUrl: "/marker-shadow.png",
@@ -26,15 +31,34 @@ const GPXLoader = ({ gpxFile }: { gpxFile: string }) => {
       polyline_options: {
         color: "red",
         weight: 4,
-        opacity: 0.8,
+        opacity: 0.9,
       },
     });
 
     gpxLayer.on("loaded", (e: any) => {
-      //وقتیکهgpxLayer انجام شد روش یک event انجام بده
-      const bounds = e.target.getBounds(); // این متد از leafLet میاد و یک آبجگت شامل مختصات دو گوشه مخالفه ، جنوب غربی و شمال شرقی
-      console.log("✅ GPX loaded:", bounds.toBBoxString());
-      map.fitBounds(bounds); // به leafLet میگه نمای داخل نقشه رو طوری تنظیم کن کل مسیر داخل صفحه دیده بشه
+      const bounds = e.target.getBounds();
+      map.fitBounds(bounds);
+
+      const center = bounds.getCenter();
+
+      const googleUrl = `https://www.google.com/maps/@${center.lat},${center.lng},14z`;
+      const neshanUrl = `https://neshan.org/maps/@${center.lat},${center.lng},14z`;
+
+      // ✅ این خیلی مهمه: گرفتن polyline
+      const line = e.target.getLayers()[0];
+
+      // ✅ فعال‌کردن کلیک روی کل مسیر
+      line.options.interactive = true;
+      line.on("click", () => {
+        window.open(googleUrl, "_blank");
+        window.open(neshanUrl, "_blank");
+      });
+
+      setLinks({
+        google: googleUrl,
+        neshan: neshanUrl,
+      });
+
       setLoaded(true);
     });
 
@@ -42,20 +66,21 @@ const GPXLoader = ({ gpxFile }: { gpxFile: string }) => {
       console.error("❌ GPX load error:", err);
     });
 
-    gpxLayer.addTo(map); //gpxLayer رو داخل نقشه میندازه
+    gpxLayer.addTo(map);
 
     return () => {
-      gpxLayer.remove(); // اگر کاربر خارج شد ویا gpx تغییر کرد مسیر قبلی از نقشه حذف بشه تا نقشه شلوغ نشه
+      gpxLayer.remove();
     };
-  }, [gpxFile, map]);
+  }, [gpxFile, map, setLinks]);
 
   if (!loaded) return <p>در حال بارگذاری مسیر...</p>;
   return null;
 };
 
 const GpxMap = ({ gpxFile }: GPXMapProps) => {
+  const [links, setLinks] = useState({ google: "", neshan: "" });
   return (
-    <div style={{ marginBottom: "40px" }}>
+    <div>
       <MapContainer // مثل بوم نقاشی میمونه که نقشه رو میسازه و محیط نمایش رو آماده میکنه و بدون این هیچ چیزی جایی برای نمایش ندارند
         key={gpxFile}
         center={[32.0, 54.0]} // تقریبا وسط ایران رو نشون میده بعد با fitBounds نقشه خودش میره روی محدوده واقعی
@@ -71,8 +96,27 @@ const GpxMap = ({ gpxFile }: GPXMapProps) => {
           attribution="© OpenStreetMap contributors"
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <GPXLoader gpxFile={gpxFile} />
+        <GPXLoader gpxFile={gpxFile} setLinks={setLinks} />
       </MapContainer>
+      <div className="flex items-center gap-2 mt-2">
+        {/* Google Maps */}
+        <button
+          onClick={() => window.open(links.google, "_blank")}
+          className="w-8 h-8 flex items-center justify-center rounded-md border border-gray-300 bg-white hover:bg-gray-100 transition"
+          title="نمایش در Google Maps"
+        >
+          <img src="/icons/google-maps.png" className="w-4 h-4" />
+        </button>
+
+        {/* Neshan */}
+        <button
+          onClick={() => window.open(links.neshan, "_blank")}
+          className="w-8 h-8 flex items-center justify-center rounded-md border border-gray-300 bg-white hover:bg-gray-100 transition"
+          title="نمایش در Neshan"
+        >
+          <img src="/icons/neshan.png" className="w-4 h-4" />
+        </button>
+      </div>
     </div>
   );
 };
