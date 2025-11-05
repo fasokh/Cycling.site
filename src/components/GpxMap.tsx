@@ -51,7 +51,7 @@ const GPXLoader = ({
       line.options.interactive = true;
       line.on("click", () => {
         window.open(googleUrl, "_blank");
-        window.open(neshanUrl, "_blank");
+        setTimeout(() => window.open(neshanUrl, "_blank"), 300);
       });
 
       setLinks({
@@ -98,25 +98,6 @@ const GpxMap = ({ gpxFile }: GPXMapProps) => {
         />
         <GPXLoader gpxFile={gpxFile} setLinks={setLinks} />
       </MapContainer>
-      <div className="flex items-center gap-2 mt-2">
-        {/* Google Maps */}
-        <button
-          onClick={() => window.open(links.google, "_blank")}
-          className="w-8 h-8 flex items-center justify-center rounded-md border border-gray-300 bg-white hover:bg-gray-100 transition"
-          title="نمایش در Google Maps"
-        >
-          <img src="/icons/google-maps.png" className="w-4 h-4" />
-        </button>
-
-        {/* Neshan */}
-        <button
-          onClick={() => window.open(links.neshan, "_blank")}
-          className="w-8 h-8 flex items-center justify-center rounded-md border border-gray-300 bg-white hover:bg-gray-100 transition"
-          title="نمایش در Neshan"
-        >
-          <img src="/icons/neshan.png" className="w-4 h-4" />
-        </button>
-      </div>
     </div>
   );
 };
