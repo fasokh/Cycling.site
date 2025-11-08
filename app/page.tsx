@@ -1,9 +1,9 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/src/firebase/firebaseConfig";
 import { useEffect, useState } from "react";
+import RoutCard from "../src/components/RoutCard/page";
 
 interface Route {
   id: string;
@@ -14,7 +14,7 @@ interface Route {
   gpxFile: string;
 }
 
-const GpxMap = dynamic(() => import("@/src/components/GpxMap"), { ssr: false });
+
 
 const Routspage = () => {
   const [routs, setRouts] = useState<Route[]>([]);
@@ -43,26 +43,7 @@ const Routspage = () => {
       <h2 className="text-xl font-bold">مسیرهای من</h2>
       <ul className="flex flex-col gap-6">
         {routs?.map((rout) => (
-          <li
-            key={rout.id}
-            className="bg-white shadow-md rounded-xl p-4 flex justify-between gap-4 items-start border border-gray-200"
-          >
-            <div className="flex flex-col gap-2 w-1/2">
-              <div className="text-lg font-semibold text-gray-900">
-                {rout.name}
-              </div>
-              <div className="text-sm text-gray-600">{rout.date}</div>
-              <div className="text-sm text-gray-700 leading-6">
-                {rout.description}
-              </div>
-              <div className="text-sm text-gray-800 font-medium">
-                {rout.distance} km
-              </div>
-            </div>
-            <div className="flex-1 min-w-[300px] max-w-[400px] rounded-lg overflow-hidden shadow-sm border border-gray-300">
-              <GpxMap gpxFile={rout.gpxFile} />
-            </div>
-          </li>
+          <RoutCard key={rout.id} rout={rout} />
         ))}
       </ul>
     </div>
