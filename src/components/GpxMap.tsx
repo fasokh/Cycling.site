@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { MapContainer, TileLayer, useMap } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
-import L, { bounds, polyline } from "leaflet";
+import L from "leaflet";
 import "leaflet-gpx";
 
 interface GPXMapProps {
