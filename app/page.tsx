@@ -3,7 +3,8 @@
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/src/firebase/firebaseConfig";
 import { useEffect, useState } from "react";
-import RoutCard from "../src/components/RoutCard/page";
+import RoutCard from "./RoutCard";
+import Header from "@/src/components/Header";
 
 interface Route {
   id: string;
@@ -13,8 +14,6 @@ interface Route {
   description: string;
   gpxFile: string;
 }
-
-
 
 const Routspage = () => {
   const [routs, setRouts] = useState<Route[]>([]);
@@ -40,7 +39,7 @@ const Routspage = () => {
 
   return (
     <div className="rtl flex flex-col w-full p-5 gap-8">
-      <h2 className="text-xl font-bold">مسیرهای من</h2>
+      <Header />
       <ul className="flex flex-col gap-6">
         {routs?.map((rout) => (
           <RoutCard key={rout.id} rout={rout} />
