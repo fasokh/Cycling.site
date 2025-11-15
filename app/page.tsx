@@ -17,6 +17,7 @@ interface Route {
 
 const Routspage = () => {
   const [routs, setRouts] = useState<Route[]>([]);
+  const [activeRoutId, setActiveRouteId] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchRoutes = async () => {
@@ -42,7 +43,12 @@ const Routspage = () => {
       <Header />
       <ul className="flex flex-col gap-6">
         {routs?.map((rout) => (
-          <RoutCard key={rout.id} rout={rout} />
+          <RoutCard
+            key={rout.id}
+            rout={rout}
+            isActive={activeRoutId === rout.id}
+            onActive={() => setActiveRouteId(rout.id)}
+          />
         ))}
       </ul>
     </div>

@@ -12,17 +12,22 @@ interface Rout {
 
 interface RoutCardProps {
   rout: Rout;
+  isActive: boolean;
+  onActive: () => void;
 }
 
 const GpxMap = dynamic(() => import("@/src/components/GpxMap"), { ssr: false });
 
-const RoutCard: FC<RoutCardProps> = ({ rout }) => {
-  const [activeRouted, setActiveRouted] = useState<string | null>(null);
-  const clickHandler = () => {
-    setActiveRouted(rout.id);
-  };
+const RoutCard: FC<RoutCardProps> = ({ rout, isActive, onActive }) => {
   return (
-    <li className="relative bg-white shadow-sm rounded-2xl p-5 border border-gray-100 hover:shadow-lg hover:scale-105 transition-all duration-200 flex flex-col md:flex-row gap-6">
+    <li
+      className={`relative bg-white shadow-sm rounded-2xl p-5 border border-gray-100 hover:shadow-lg hover:scale-105 transition-all duration-200 flex flex-col md:flex-row gap-6 ${
+        isActive
+          ? "shadow-lg scale-105 border-orange-300"
+          : "shadow-sm hover:scale-100 hover:shadow-md"
+      }`}
+      onClick={onActive}
+    >
       <span className="absolute right-0 top-0 h-full w-0.5 bg-orange-500 rounded-r-2xl"></span>
 
       <div className="flex flex-col gap-2 md:w-1/2">
@@ -37,7 +42,7 @@ const RoutCard: FC<RoutCardProps> = ({ rout }) => {
       </div>
 
       <div className="flex-1 min-w-[240px] max-w-[380px] rounded-xl overflow-hidden">
-        <GpxMap gpxFile={rout.gpxFile} />
+        <GpxMap gpxFile={rout.gpxFile} isActive={isActive} />
       </div>
     </li>
   );
