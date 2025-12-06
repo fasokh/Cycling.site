@@ -14,7 +14,7 @@ const firebaseConfig = {
 };
 
 // ✅ فقط یک بار initialize بشه
-const app = !getApps().length ? initializeApp(firebaseConfig) : getApps()[0];
+export const app = !getApps().length ? initializeApp(firebaseConfig) : getApps()[0];
 
 // ✅ Firestore export
 export const db = getFirestore(app);
