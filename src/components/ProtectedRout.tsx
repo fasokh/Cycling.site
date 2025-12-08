@@ -1,9 +1,14 @@
 "use client";
-import React, { useEffect } from "react";
+
+import React, { useEffect, ReactNode } from "react";
 import { useAuth } from "@/src/context/AuthContext";
 import { useRouter } from "next/navigation";
 
-const ProtectedRout = () => {
+interface ProtectedRoutProps {
+  children: ReactNode;
+}
+
+const ProtectedRout = ({ children }: ProtectedRoutProps) => {
   const { loading, user } = useAuth();
   const route = useRouter();
 
@@ -13,7 +18,9 @@ const ProtectedRout = () => {
     }
   }, [user, loading]);
 
-  return <div>ProtectedRout</div>;
+  if (loading) return <div>Loading...</div>;
+
+  return <div>{user ? children : null}</div>;
 };
 
 export default ProtectedRout;
