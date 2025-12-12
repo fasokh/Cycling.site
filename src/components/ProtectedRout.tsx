@@ -16,7 +16,7 @@ const ProtectedRout = ({ children }: ProtectedRoutProps) => {
     if (!loading && !user) {
       route.push("/login");
     }
-  }, [user, loading]);
+  }, [user, loading, route]);
 
   if (loading) return <div>Loading...</div>;
 
