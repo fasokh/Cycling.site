@@ -3,7 +3,7 @@
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/src/firebase/firebaseConfig";
 import { useEffect, useState } from "react";
-import RoutCard from "./RoutCard";
+import RoutCard from "./RouteCard";
 import Header from "@/src/components/Header";
 
 interface Route {
