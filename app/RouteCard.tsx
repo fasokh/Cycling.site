@@ -1,16 +1,6 @@
-
 import React, { FC, useState } from "react";
 import dynamic from "next/dynamic";
 import { RouteCardModel } from "@/src/types/ًRouteCardModle";
-
-// interface Rout {
-//   id: string;
-//   name: string;
-//   description: string;
-//   distance: number;
-//   gpxFile: string;
-//   date: string;
-// }
 
 interface RoutCardProps {
   rout: RouteCardModel;

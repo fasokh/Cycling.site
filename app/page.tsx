@@ -7,14 +7,7 @@ import RoutCard from "./RouteCard";
 import Header from "@/src/components/Header";
 import { RouteCardModel } from "@/src/types/ًRouteCardModle";
 
-// interface Route {
-//   id: string;
-//   name: string;
-//   distance: number;
-//   date: string;
-//   description: string;
-//   gpxFile: string;
-// }
+
 
 const Routspage = () => {
   const [routs, setRouts] = useState<RouteCardModel[]>([]);
