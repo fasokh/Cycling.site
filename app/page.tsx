@@ -5,18 +5,19 @@ import { db } from "@/src/firebase/firebaseConfig";
 import { useEffect, useState } from "react";
 import RoutCard from "./RouteCard";
 import Header from "@/src/components/Header";
+import { RouteCardModel } from "@/src/types/ًRouteCardModle";
 
-interface Route {
-  id: string;
-  name: string;
-  distance: number;
-  date: string;
-  description: string;
-  gpxFile: string;
-}
+// interface Route {
+//   id: string;
+//   name: string;
+//   distance: number;
+//   date: string;
+//   description: string;
+//   gpxFile: string;
+// }
 
 const Routspage = () => {
-  const [routs, setRouts] = useState<Route[]>([]);
+  const [routs, setRouts] = useState<RouteCardModel[]>([]);
   const [activeRoutId, setActiveRouteId] = useState<string | null>(null);
 
   useEffect(() => {
@@ -25,13 +26,13 @@ const Routspage = () => {
       querySnapshot.forEach((doc) =>
         console.log("برای هر داکیومنت", doc.id, doc.data())
       );
-      const data: Route[] = querySnapshot.docs.map(
+      const data: RouteCardModel[] = querySnapshot.docs.map(
         // هر داک در دیتابیس رو تبدیل به یک ابجگت جاوااسکریپتی کردیم و در نهایت تبدیل به ارایه ای از آبجکتها میشود
         (doc) =>
           ({
             id: doc.id,
             ...doc.data(),
-          } as Route) //گفتیم که این آبجکت از چه نوعی باشه
+          } as RouteCardModel) //گفتیم که این آبجکت از چه نوعی باشه
       );
       setRouts(data);
     };
