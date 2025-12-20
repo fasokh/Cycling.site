@@ -1,42 +1,28 @@
 "use client";
 
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "@/src/firebase/firebaseConfig";
 import { useEffect, useState } from "react";
 import RoutCard from "./RouteCard";
 import Header from "@/src/components/Header";
 import { RouteCardModel } from "@/src/types/ًRouteCardModle";
-
-
+import { getAllRoutes } from "@/src/services/route.service";
+import { mapRouteToCard } from "@/src/mappers/route.mapper";
 
 const Routspage = () => {
-  const [routs, setRouts] = useState<RouteCardModel[]>([]);
+  const [routes, setRoutes] = useState<RouteCardModel[]>([]);
   const [activeRoutId, setActiveRouteId] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchRoutes = async () => {
-      const querySnapshot = await getDocs(collection(db, "routes"));
-      querySnapshot.forEach((doc) =>
-        console.log("برای هر داکیومنت", doc.id, doc.data())
-      );
-      const data: RouteCardModel[] = querySnapshot.docs.map(
-        // هر داک در دیتابیس رو تبدیل به یک ابجگت جاوااسکریپتی کردیم و در نهایت تبدیل به ارایه ای از آبجکتها میشود
-        (doc) =>
-          ({
-            id: doc.id,
-            ...doc.data(),
-          } as RouteCardModel) //گفتیم که این آبجکت از چه نوعی باشه
-      );
-      setRouts(data);
-    };
-    fetchRoutes(); // نمیتونه بصورت غیرهمزمان استفاده بشه پس برای اینکه یک فانکشن رو بخواهیم بصورت غیرهمزمان استفاده کنیم هم تعریف و بعد داخلش صدا میزنیمEffect
+    getAllRoutes().then((route) => {
+      const cardDate = route.map(mapRouteToCard);
+      setRoutes(cardDate);
+    });
   }, []);
 
   return (
     <div className="rtl flex flex-col w-full p-5 gap-8">
       <Header />
       <ul className="flex flex-col gap-6">
-        {routs?.map((rout) => (
+        {routes?.map((rout) => (
           <RoutCard
             key={rout.id}
             rout={rout}

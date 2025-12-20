@@ -3,8 +3,7 @@
 import ProtectedRout from "@/src/components/ProtectedRout";
 import { useAuth } from "@/src/context/AuthContext";
 
-const DashboardPage = () => {
-  
+const Dashboard = () => {
   const { user } = useAuth();
 
   return (
@@ -14,4 +13,4 @@ const DashboardPage = () => {
   );
 };
 
-export default DashboardPage;
+export default Dashboard;

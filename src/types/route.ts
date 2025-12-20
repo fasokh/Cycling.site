@@ -6,7 +6,7 @@ export interface Route {
   title: string;
   distance: number;
   description: string;
-  createdAt: Timestamp;
+  createdAt?: Timestamp | Date | string;
   gpxUrl: string;
 }
 
