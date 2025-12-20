@@ -1,31 +1,37 @@
 import React from "react";
 import { useAuth } from "@/src/context/AuthContext";
+import { useRouter } from "next/navigation";
 
 const HeaderDashboard = () => {
-  const { user, signoutUser, signup, signinWithEmail, loading } = useAuth();
+  const { user, signoutUser, loading } = useAuth();
+  const route = useRouter();
 
   return (
-    <div>
-      <div>
-        {user ? (
-          <div>
-            <h2>{user?.displayName}</h2>
-            <button type="button" onClick={signoutUser}>
-              خروج
-            </button>
-          </div>
-        ) : (
-          <div>
-            <button type="button">
-              ورود
-            </button>
-            <button type="button">
-              ثبت نام
-            </button>
-          </div>
-        )}
-      </div>
-    </div>
+    <header className="w-full bg-white border-b border-gray-200">
+      {user ? (
+        <div>
+          <h2>سلام {user?.displayName || user.email}</h2>
+          <button
+            type="button"
+            onClick={async () => {
+              await signoutUser();
+              route.push("/login");
+            }}
+          >
+            خروج
+          </button>
+        </div>
+      ) : (
+        <div>
+          <button type="button" onClick={() => route.push("/login")}>
+            ورود
+          </button>
+          <button type="button" onClick={() => route.push("/register")}>
+            ثبت نام
+          </button>
+        </div>
+      )}
+    </header>
   );
 };
 
