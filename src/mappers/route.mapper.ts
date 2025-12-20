@@ -17,7 +17,7 @@ export const mapRouteToCard = (route: Route): RouteCardModel => {
     id: route.id,
     name: route.title,
     distance: route.distance,
-    description: "-",
+    description: route.description,
     gpxFile: route.gpxUrl ?? "",
     date,
   };
