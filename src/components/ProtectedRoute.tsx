@@ -19,8 +19,9 @@ const ProtectedRout = ({ children }: ProtectedRoutProps) => {
   }, [user, loading, route]);
 
   if (loading) return <div>Loading...</div>;
+  if(!user) return null
 
-  return <div>{user ? children : null}</div>;
+  return <>{children}</>;
 };
 
 export default ProtectedRout;
