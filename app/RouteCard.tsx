@@ -1,6 +1,6 @@
 import React, { FC, useState } from "react";
 import dynamic from "next/dynamic";
-import { RouteCardModel } from "@/src/types/ًRouteCardModle";
+import { RouteCardModel } from "@/src/types/routeCardModel";
 
 interface RoutCardProps {
   rout: RouteCardModel;

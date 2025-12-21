@@ -1,6 +1,6 @@
 import { Timestamp } from "firebase/firestore";
 import { Route } from "../types/route";
-import { RouteCardModel } from "../types/ًRouteCardModle";
+import { RouteCardModel } from "../types/routeCardModel";
 
 export const mapRouteToCard = (route: Route): RouteCardModel => {
   let date = "";

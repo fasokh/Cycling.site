@@ -18,22 +18,8 @@ import {
   User as FirebaseUser,
 } from "firebase/auth";
 import { app } from "../firebase/firebaseConfig";
-
-interface User {
-  photoUrl: string;
-  email: string;
-  displayName: string;
-  id: string;
-}
-
-interface AuthContextType {
-  user: User | null;
-  loading: boolean;
-  signinWithEmail: (email: string, password: string) => Promise<void>;
-  signinWithGoogle: () => Promise<void>;
-  signoutUser: () => Promise<void>;
-  signup: (email: string, password: string) => Promise<void>;
-}
+import { User } from "../types/user";
+import { AuthContextType } from "../types/authContext";
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 const auth = getAuth(app);
