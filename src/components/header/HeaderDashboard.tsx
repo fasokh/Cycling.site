@@ -7,7 +7,7 @@ const HeaderDashboard = () => {
   const route = useRouter();
 
   return (
-    <header className="w-full bg-white border-b border-gray-200">
+    <header>
       {user ? (
         <div>
           <h2>سلام {user?.displayName || user.email}</h2>
@@ -22,10 +22,11 @@ const HeaderDashboard = () => {
           </button>
         </div>
       ) : (
-        <div>
+        <div className="flex">
           <button type="button" onClick={() => route.push("/login")}>
             ورود
           </button>
+          <p> / </p>
           <button type="button" onClick={() => route.push("/register")}>
             ثبت نام
           </button>
