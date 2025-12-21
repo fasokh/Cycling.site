@@ -1,6 +1,6 @@
 "use client";
 
-import ProtectedRout from "@/src/components/ProtectedRout";
+import ProtectedRout from "@/src/components/ProtectedRoute";
 import { useAuth } from "@/src/context/AuthContext";
 
 const Dashboard = () => {

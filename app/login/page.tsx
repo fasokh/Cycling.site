@@ -4,15 +4,16 @@ import React, { useState } from "react";
 import { useAuth } from "@/src/context/AuthContext";
 import { useRouter } from "next/navigation";
 
-const Loginpage = async () => {
-  const { signinWithEmail } = useAuth();
+const Login = () => {
+  const { signinWithEmail, loading, user } = useAuth();
   const rout = useRouter();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const emialHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const emailHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
   };
   const passwordHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -24,12 +25,16 @@ const Loginpage = async () => {
     setError("");
 
     try {
+      setIsLoading(true);
       await signinWithEmail(email, password);
-      rout.push("/dashboardPage");// بعد از ورود موقق به داشبورد میره
+      rout.push("/dashboard"); // بعد از ورود موقق به داشبورد میره
+      setIsLoading(false);
     } catch (err: any) {
       setError(err.message);
     }
   };
+
+  if (loading) return <div>Loading...</div>;
 
   return (
     <div className="p-20">
@@ -39,7 +44,7 @@ const Loginpage = async () => {
           type="email"
           placeholder="ایمیل"
           value={email}
-          onChange={emialHandler}
+          onChange={emailHandler}
         />
         <input
           type="password"
@@ -47,13 +52,11 @@ const Loginpage = async () => {
           placeholder="رمز عبور"
           onChange={passwordHandler}
         />
-        <button type="submit">
-          ورود
-        </button>
+        <button type="submit">ورود</button>
         {error && <p style={{ color: "red" }}>{error}</p>}
       </form>
     </div>
   );
 };
 
-export default Loginpage;
+export default Login;
