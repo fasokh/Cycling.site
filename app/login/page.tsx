@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuth } from "@/src/context/AuthContext";
 import { useRouter } from "next/navigation";
 
 const Login = () => {
-  const { signinWithEmail, loading, user } = useAuth();
+  const { signinWithEmail, loading, user, signinWithGoogle } = useAuth();
   const rout = useRouter();
 
   const [email, setEmail] = useState("");
@@ -28,33 +28,74 @@ const Login = () => {
       setIsLoading(true);
       await signinWithEmail(email, password);
       rout.push("/dashboard"); // بعد از ورود موقق به داشبورد میره
-      setIsLoading(false);
     } catch (err: any) {
-      setError(err.message);
+      switch (err.code) {
+        case "auth/user-not-found":
+          setError("کاربری با این ایمیل یافت نشد.");
+          break;
+        case "auth/wrong-password":
+          setError("رمز عبور اشتباه است.");
+          break;
+        default:
+          setError("خطا در ورود. لطفا دوباره تلاش کنید.");
+      }
+    } finally {
+      setIsLoading(false);
     }
   };
+
+  const loginWithGoogleHandler = async () => {
+    try {
+      await signinWithGoogle();
+      rout.push("/dashboard");
+    } catch (err: any) {
+      setError("خطا در ورود با گوگل. لطفا دوباره تلاش کنید.");
+    }
+  };
+
+  useEffect(() => {
+    if (user) {
+      rout.push("/dashboard");
+    }
+  }, [user, rout]);
 
   if (loading) return <div>Loading...</div>;
 
   return (
-    <div className="p-20">
-      <h2>ورود به سایت دوچرخه سواری</h2>
-      <form onSubmit={loginHandler}>
-        <input
-          type="email"
-          placeholder="ایمیل"
-          value={email}
-          onChange={emailHandler}
-        />
-        <input
-          type="password"
-          value={password}
-          placeholder="رمز عبور"
-          onChange={passwordHandler}
-        />
-        <button type="submit">ورود</button>
-        {error && <p style={{ color: "red" }}>{error}</p>}
-      </form>
+    <div className="p-20 flex justify-center items-center">
+      <div className="flex flex-col">
+        <h2>ورود به سایت دوچرخه سواری</h2>
+        <form onSubmit={loginHandler} className="flex flex-col gap-4 w-50 mt-4">
+          <input
+            type="email"
+            placeholder="ایمیل"
+            value={email}
+            onChange={emailHandler}
+            className="outline-none border border-gray-500 rounded-l"
+          />
+          <input
+            type="password"
+            value={password}
+            placeholder="رمز عبور"
+            onChange={passwordHandler}
+            className="outline-none border border-gray-500 rounded-l"
+          />
+          <button
+            type="submit"
+            className="border border-gray-800 rounded-l outline-none"
+          >
+            ورود
+          </button>
+          <button
+            type="button"
+            className="border border-gray-800 rounded-l outline-none"
+            onClick={loginWithGoogleHandler}
+          >
+            ورود با گوگل
+          </button>
+          {error && <p style={{ color: "red" }}>{error}</p>}
+        </form>
+      </div>
     </div>
   );
 };
