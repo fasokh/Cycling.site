@@ -6,7 +6,7 @@ import { useRouter } from "next/navigation";
 
 const Login = () => {
   const { signinWithEmail, loading, user, signinWithGoogle } = useAuth();
-  const rout = useRouter();
+  const route = useRouter();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -27,7 +27,7 @@ const Login = () => {
     try {
       setIsLoading(true);
       await signinWithEmail(email, password);
-      rout.push("/dashboard"); // بعد از ورود موقق به داشبورد میره
+      route.push("/dashboard"); // بعد از ورود موقق به داشبورد میره
     } catch (err: any) {
       switch (err.code) {
         case "auth/user-not-found":
@@ -47,7 +47,7 @@ const Login = () => {
   const loginWithGoogleHandler = async () => {
     try {
       await signinWithGoogle();
-      rout.push("/dashboard");
+      route.push("/dashboard");
     } catch (err: any) {
       setError("خطا در ورود با گوگل. لطفا دوباره تلاش کنید.");
     }
@@ -55,9 +55,9 @@ const Login = () => {
 
   useEffect(() => {
     if (user) {
-      rout.push("/dashboard");
+      route.push("/dashboard");
     }
-  }, [user, rout]);
+  }, [user, route]);
 
   if (loading) return <div>Loading...</div>;
 
@@ -92,6 +92,13 @@ const Login = () => {
             onClick={loginWithGoogleHandler}
           >
             ورود با گوگل
+          </button>
+          <button
+            type="button"
+            onClick={() => route.push("/register")}
+            className="border border-gray-800 rounded-l outline-none"
+          >
+            ثبت نام
           </button>
           {error && <p style={{ color: "red" }}>{error}</p>}
         </form>
