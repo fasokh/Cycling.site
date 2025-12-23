@@ -2,14 +2,15 @@
 
 import { useEffect, useState } from "react";
 import { useAuth } from "@/src/context/AuthContext";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
-const register = () => {
+const Signup = () => {
   const { loading, user, signup } = useAuth();
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
   const route = useRouter();
 
   const emailHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -22,6 +23,8 @@ const register = () => {
 
   const confirmPasswordHander = (e: React.ChangeEvent<HTMLInputElement>) => {
     const confirmPassword = e.target.value;
+    setConfirmPassword(confirmPassword);
+
     if (confirmPassword !== password) {
       setError("رمزهای عبور مطابقت ندارند.");
     } else {
@@ -33,10 +36,13 @@ const register = () => {
     e.preventDefault();
     setError("");
 
+    if (password !== confirmPassword || !confirmPassword) {
+      setError("رمزهای عبور مطابقت ندارند.");
+      return;
+    }
     try {
       setIsLoading(true);
       await signup(email, password);
-      route.push("/dashboard");
     } catch (err: any) {
       switch (err.code) {
         case "auth/email-already-in-use":
@@ -56,14 +62,14 @@ const register = () => {
     }
   };
 
-  if (loading) return <div>Loading...</div>;
-
   useEffect(() => {
     if (user) {
       route.push("/dashboard");
     }
   }, [user, route]);
-  
+
+  if (loading) return <div>Loading...</div>;
+
   return (
     <div className="p-20 flex justify-center items-center">
       <div className="flex flex-col">
@@ -73,26 +79,29 @@ const register = () => {
           className="flex flex-col gap-4 w-50 mt-4"
         >
           <input
-            type="text"
+            type="email"
+            value={email}
             placeholder="ایمیل"
             onChange={emailHandler}
             className="outline-none border border-gray-500 rounded-l"
           />
           <input
             type="password"
+            value={password}
             placeholder="رمز عبور"
             onChange={passwordHandler}
             className="outline-none border border-gray-500 rounded-l"
           />
           <input
             type="password"
+            value={confirmPassword}
             name="confirmPassword"
             placeholder="تکرار رمز عبور"
             onChange={confirmPasswordHander}
             className="outline-none border border-gray-500 rounded-l"
           />
           <button
-            type="button"
+            type="submit"
             className="border border-gray-800 rounded-l outline-none"
           >
             ثبت نام
@@ -104,4 +113,4 @@ const register = () => {
   );
 };
 
-export default register;
+export default Signup;

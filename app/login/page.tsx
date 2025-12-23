@@ -95,7 +95,7 @@ const Login = () => {
           </button>
           <button
             type="button"
-            onClick={() => route.push("/register")}
+            onClick={() => route.push("/signup")}
             className="border border-gray-800 rounded-l outline-none"
           >
             ثبت نام
