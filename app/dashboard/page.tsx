@@ -1,15 +1,18 @@
 "use client";
 
 import ProtectedRout from "@/src/components/ProtectedRoute";
+import HeaderDashboard from "@/src/components/header/HeaderDashboard";
 import { useAuth } from "@/src/context/AuthContext";
 
 const Dashboard = () => {
   const { user } = useAuth();
 
   return (
-    <ProtectedRout>
-      <div> سلام{user?.displayName}</div>
-    </ProtectedRout>
+    <div className="w-full flex">
+      <ProtectedRout>
+        <HeaderDashboard />
+      </ProtectedRout>
+    </div>
   );
 };
 
