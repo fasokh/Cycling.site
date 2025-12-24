@@ -1,4 +1,4 @@
-import HeaderDashboard from "./HeaderDashboard";
+import HeaderDashboard from "./AppHeader";
 import Logo from "./Logo";
 
 const Header = () => {

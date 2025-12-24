@@ -1,7 +1,6 @@
 import { useAuth } from "@/src/context/AuthContext";
-import { User } from "@/src/types/user";
 
-const MinimalDashboard = () => {
+const UserMenu = () => {
   const { user, signoutUser } = useAuth();
 
   return (
@@ -15,4 +14,4 @@ const MinimalDashboard = () => {
   );
 };
 
-export default MinimalDashboard;
+export default UserMenu;

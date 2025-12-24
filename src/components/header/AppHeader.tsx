@@ -1,10 +1,10 @@
 import React from "react";
 import { useAuth } from "@/src/context/AuthContext";
 import { useRouter } from "next/navigation";
-import MinimalDashboard from "./MinimalDashboard";
+import MinimalDashboard from "./UserMenu";
 
-const HeaderDashboard = () => {
-  const { user, signoutUser, loading } = useAuth();
+const AppHeader = () => {
+  const { user, signoutUser } = useAuth();
   const route = useRouter();
 
   return (
@@ -41,4 +41,4 @@ const HeaderDashboard = () => {
   );
 };
 
-export default HeaderDashboard;
+export default AppHeader;

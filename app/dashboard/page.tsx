@@ -1,7 +1,7 @@
 "use client";
 
 import ProtectedRout from "@/src/components/ProtectedRoute";
-import HeaderDashboard from "@/src/components/header/HeaderDashboard";
+import HeaderDashboard from "@/src/components/header/AppHeader";
 import { useAuth } from "@/src/context/AuthContext";
 
 const Dashboard = () => {
