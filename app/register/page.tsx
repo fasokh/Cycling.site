@@ -103,6 +103,7 @@ const Signup = () => {
           <button
             type="submit"
             className="border border-gray-800 rounded-l outline-none"
+            disabled={isLoading}
           >
             ثبت نام
           </button>
