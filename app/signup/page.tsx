@@ -107,6 +107,13 @@ const Signup = () => {
           >
             ثبت نام
           </button>
+          <button
+            type="button"
+            className="border border-gray-800 rounded-l outline-none"
+            onClick={() => route.push("/login")}
+          >
+            ورود
+          </button>
           {error && <p style={{ color: "red" }}>{error}</p>}
         </form>
       </div>

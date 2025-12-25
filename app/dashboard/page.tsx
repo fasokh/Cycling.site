@@ -1,18 +1,26 @@
 "use client";
 
 import ProtectedRout from "@/src/components/ProtectedRoute";
-import HeaderDashboard from "@/src/components/header/AppHeader";
+import MenuUserSection from "@/src/components/header/MenuUserSection";
 import { useAuth } from "@/src/context/AuthContext";
 
 const Dashboard = () => {
   const { user } = useAuth();
 
   return (
-    <div className="w-full flex">
-      <ProtectedRout>
-        <HeaderDashboard />
-      </ProtectedRout>
-    </div>
+    <ProtectedRout>
+      <div className="w-full flex flex-col gap-4 p-8">
+          <p>به پنل کاربری خوش آمدید</p>
+          <p>سلام{user?.displayName}</p>
+          <div>
+            <ul>
+              <li>مسیرهای دوچرخه سواری</li>
+              <li>مسیر جدید</li>
+              <li>آمار رکاب زدن</li>
+            </ul>
+          </div>
+      </div>
+    </ProtectedRout>
   );
 };
 
