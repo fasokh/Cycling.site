@@ -5,7 +5,7 @@ import { useAuth } from "@/src/context/AuthContext";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
-const MenuUserSection = () => {
+const UserMenu = () => {
   const { user, signoutUser, loading } = useAuth();
   const route = useRouter();
 
@@ -37,4 +37,4 @@ const MenuUserSection = () => {
   );
 };
 
-export default MenuUserSection;
+export default UserMenu;

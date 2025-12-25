@@ -1,11 +1,12 @@
-import React from "react";
+import Link from "next/link";
 
 function Logo() {
   return (
-    <div className="w-10 h-10 rounded-full bg-orange-500">
-      <p className="mt-1.5 mr-1.5">FS</p>
-    </div>
+    <Link href="/" className="w-10 h-10 rounded-full bg-orange-500">
+      FS
+    </Link>
   );
 }
 
 export default Logo;
+
