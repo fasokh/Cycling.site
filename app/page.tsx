@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from "react";
 import RoutCard from "./RouteCard";
-import Header from "@/src/components/header/AppHeader";
 import { RouteCardModel } from "@/src/types/routeCardModel";
 import { getAllRoutes } from "@/src/services/route.service";
 import { mapRouteToCard } from "@/src/mappers/route.mapper";
@@ -20,7 +19,6 @@ const Routspage = () => {
 
   return (
     <div className="rtl flex flex-col w-full p-5 gap-8">
-      <Header />
       <ul className="flex flex-col gap-6">
         {routes?.map((rout) => (
           <RoutCard

@@ -10,15 +10,15 @@ const Dashboard = () => {
   return (
     <ProtectedRout>
       <div className="w-full flex flex-col gap-4 p-8">
-          <p>به پنل کاربری خوش آمدید</p>
-          <p>سلام{user?.displayName}</p>
-          <div>
-            <ul>
-              <li>مسیرهای دوچرخه سواری</li>
-              <li>مسیر جدید</li>
-              <li>آمار رکاب زدن</li>
-            </ul>
-          </div>
+        <p>سلام{user?.displayName}</p>
+        <p>به پنل کاربری خوش آمدید</p>
+        <div>
+          <ul>
+            <li>مسیرهای دوچرخه سواری</li>
+            <li>مسیر جدید</li>
+            <li>آمار رکاب زدن</li>
+          </ul>
+        </div>
       </div>
     </ProtectedRout>
   );

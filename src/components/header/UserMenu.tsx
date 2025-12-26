@@ -22,8 +22,7 @@ const UserMenu = () => {
   }
 
   return (
-    <div className="flex gap-4 items-center">
-      <span>سلام {user?.displayName}</span>
+    <div>
       <button
         type="button"
         onClick={async () => {
