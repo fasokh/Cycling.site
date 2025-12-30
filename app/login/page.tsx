@@ -27,7 +27,6 @@ const Login = () => {
     try {
       setIsLoading(true);
       await signinWithEmail(email, password);
-      route.push("/dashboard"); // بعد از ورود موقق به داشبورد میره
     } catch (err: any) {
       switch (err.code) {
         case "auth/user-not-found":
@@ -83,6 +82,7 @@ const Login = () => {
           <button
             type="submit"
             className="border border-gray-800 rounded-l outline-none"
+            disabled={isLoading}
           >
             ورود
           </button>
@@ -95,7 +95,7 @@ const Login = () => {
           </button>
           <button
             type="button"
-            onClick={() => route.push("/register")}
+            onClick={() => route.push("/signup")}
             className="border border-gray-800 rounded-l outline-none"
           >
             ثبت نام

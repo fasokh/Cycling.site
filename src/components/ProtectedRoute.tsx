@@ -8,7 +8,7 @@ interface ProtectedRoutProps {
   children: ReactNode;
 }
 
-const ProtectedRout = ({ children }: ProtectedRoutProps) => {
+const ProtectedRoute = ({ children }: ProtectedRoutProps) => {
   const { loading, user } = useAuth();
   const route = useRouter();
 
@@ -19,9 +19,9 @@ const ProtectedRout = ({ children }: ProtectedRoutProps) => {
   }, [user, loading, route]);
 
   if (loading) return <div>Loading...</div>;
-  if(!user) return null
+  if (!user) return null;
 
   return <>{children}</>;
 };
 
-export default ProtectedRout;
+export default ProtectedRoute;

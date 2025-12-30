@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import AuthProvider from "@/src/context/AuthContext";
+import AppHeader from "@/src/components/header/AppHeader";
 
 const vazir = Vazirmatn({
   subsets: ["arabic"],
@@ -32,7 +33,10 @@ export default function RootLayout({
   return (
     <html lang="fa" dir="rtl" className={vazir.className}>
       <body className={"antialiased"}>
-        <AuthProvider>{children}</AuthProvider>
+        <AuthProvider>
+          <AppHeader />
+          {children}
+        </AuthProvider>
       </body>
     </html>
   );
