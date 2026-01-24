@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { MapContainer, TileLayer, useMap } from "react-leaflet";
+import { MapContainer, TileLayer } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import "leaflet-gpx";
 import GPXLoader from "./GpxLoader";
@@ -31,7 +31,7 @@ const GpxMap = ({ gpxFile, isActive }: GPXMapProps) => {
           attribution="© OpenStreetMap contributors"
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
-        <GPXLoader gpxFile={gpxFile} setLinks={setLinks} isActive={isActive} />
+        <GPXLoader gpxFile={gpxFile} setLinks={setLinks} isActive={isActive} /> 
       </MapContainer>
     </div>
   );

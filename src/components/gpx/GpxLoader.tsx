@@ -7,15 +7,13 @@ import L from "leaflet";
 import type { LatLngBounds } from "leaflet";
 import "leaflet-gpx";
 
-const GPXLoader = ({
-  gpxFile,
-  setLinks,
-  isActive,
-}: {
+interface GPXLoaderProps {
   gpxFile: string;
   setLinks: any;
   isActive: boolean;
-}) => {
+}
+
+const GPXLoader = ({ gpxFile, setLinks, isActive }: GPXLoaderProps) => {
   const map = useMap();
   const [loaded, setLoaded] = useState(false);
   const boundsRef = useRef<LatLngBounds | null>(null);
@@ -35,7 +33,7 @@ const GPXLoader = ({
       },
     });
 
-    gpxLayer.on("loaded", (e: any) => {
+    gpxLayer.on("loaded", (e: any) => { // وقتی که مسیر لود میشه 
       const bounds = e.target.getBounds();
       map.fitBounds(bounds);
 
@@ -44,10 +42,10 @@ const GPXLoader = ({
       const googleUrl = `https://www.google.com/maps/@${center.lat},${center.lng},14z`;
       const neshanUrl = `https://neshan.org/maps/@${center.lat},${center.lng},14z`;
 
-      // ✅ این خیلی مهمه: گرفتن polyline
+      //  این خیلی مهمه: گرفتن polyline
       const line = e.target.getLayers()[0];
 
-      // ✅ فعال‌کردن کلیک روی کل مسیر
+      //  فعال‌کردن کلیک روی کل مسیر
       line.options.interactive = true;
       line.on("click", () => {
         window.open(googleUrl, "_blank");
@@ -80,10 +78,5 @@ const GPXLoader = ({
   if (!loaded) return <p>در حال بارگذاری مسیر...</p>;
   return null;
 };
-
-interface GPXMapProps {
-  gpxFile: string;
-  isActive: boolean;
-}
 
 export default GPXLoader;

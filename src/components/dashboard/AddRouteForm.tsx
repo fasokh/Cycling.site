@@ -1,3 +1,5 @@
+"use client";
+
 import { useState } from "react";
 
 const AddRouteForm = () => {
@@ -5,13 +7,14 @@ const AddRouteForm = () => {
   const [description, setDescription] = useState("");
   const [opened, setOpened] = useState(false);
 
-  const descriptionHander = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const descriptionHander = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setDescription(e.target.value);
   };
 
-  const captionHander = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const titleHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
   };
+
   const submitFormHandler = (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -28,7 +31,7 @@ const AddRouteForm = () => {
         onClick={() => {
           setOpened((prev) => !prev);
         }}
-        className="text-bold text-lg mb-4 flex-start"
+        className="text-bold text-lg mb-4 flex-start w-40"
       >
         افزودن مسیر جدید
       </button>
@@ -39,14 +42,13 @@ const AddRouteForm = () => {
             id="title"
             type="text"
             placeholder="نام مسیر"
-            onChange={captionHander}
+            onChange={titleHandler}
             value={title}
             className="outline-none border border-gray-400 rounded-lg p-2"
           />
           <label htmlFor="description">توضیحات</label>
-          <input
+          <textarea
             id="description"
-            type="text"
             placeholder="توضیحات"
             value={description}
             onChange={descriptionHander}

@@ -6,14 +6,14 @@ import { RouteCardModel } from "@/src/types/routeCardModel";
 import { getAllRoutes } from "@/src/services/route.service";
 import { mapRouteToCard } from "@/src/mappers/route.mapper";
 
-const Routspage = () => {
+const RoutsPage = () => {
   const [routes, setRoutes] = useState<RouteCardModel[]>([]);
   const [activeRoutId, setActiveRouteId] = useState<string | null>(null);
 
   useEffect(() => {
     getAllRoutes().then((route) => {
-      const cardDate = route.map(mapRouteToCard);
-      setRoutes(cardDate);
+      const cardData = route.map(mapRouteToCard);
+      setRoutes(cardData);
     });
   }, []);
 
@@ -33,4 +33,4 @@ const Routspage = () => {
   );
 };
 
-export default Routspage;
+export default RoutsPage;

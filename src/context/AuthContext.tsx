@@ -15,11 +15,12 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
-  User as FirebaseUser,
+  // User as FirebaseUser,
 } from "firebase/auth";
 import { app } from "../firebase/firebaseConfig";
 import { User } from "../types/user";
 import { AuthContextType } from "../types/authContext";
+import { mapUser } from "../mappers/user.mapper";
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 const auth = getAuth(app);
@@ -29,12 +30,12 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
-  const mapUser = (firebaseUser: FirebaseUser): User => ({
-    id: firebaseUser.uid,
-    email: firebaseUser?.email ?? "",
-    displayName: firebaseUser?.displayName ?? "",
-    photoUrl: firebaseUser?.photoURL ?? "",
-  });
+  // const mapUser = (firebaseUser: FirebaseUser): User => ({  
+  //   id: firebaseUser.uid,
+  //   email: firebaseUser?.email ?? "",
+  //   displayName: firebaseUser?.displayName ?? "",
+  //   photoUrl: firebaseUser?.photoURL ?? "",
+  // });
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {

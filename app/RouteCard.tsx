@@ -1,4 +1,4 @@
-import React, { FC, useState } from "react";
+import React, { FC } from "react";
 import dynamic from "next/dynamic";
 import { RouteCardModel } from "@/src/types/routeCardModel";
 
@@ -8,7 +8,7 @@ interface RoutCardProps {
   onActive: () => void;
 }
 
-const GpxMap = dynamic(() => import("@/src/components/GpxMap"), { ssr: false });
+const GpxMap = dynamic(() => import("@/src/components/gpx/GpxMap"), { ssr: false });
 
 const RoutCard: FC<RoutCardProps> = ({ rout, isActive, onActive }) => {
   return (
