@@ -16,7 +16,7 @@ const UserMenu = () => {
       <div className="flex gap-2">
         <Link href={"/login"}>ورود</Link>
         <span>/</span>
-        <Link href={"/register"}>ثبت نام</Link>
+        <Link href={"/signup"}>ثبت نام</Link>
       </div>
     );
   }
