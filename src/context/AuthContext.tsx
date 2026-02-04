@@ -15,7 +15,6 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
-  // User as FirebaseUser,
 } from "firebase/auth";
 import { app } from "../firebase/firebaseConfig";
 import { User } from "../types/user";
@@ -30,17 +29,14 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
-  // const mapUser = (firebaseUser: FirebaseUser): User => ({  
-  //   id: firebaseUser.uid,
-  //   email: firebaseUser?.email ?? "",
-  //   displayName: firebaseUser?.displayName ?? "",
-  //   photoUrl: firebaseUser?.photoURL ?? "",
-  // });
-
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      if (currentUser) setUser(mapUser(currentUser));
-      else setUser(null);
+      console.log("firebase uid", currentUser?.uid);
+
+      if (currentUser) {
+        console.log("mapped user", mapUser(currentUser));
+        setUser(mapUser(currentUser));
+      } else setUser(null);
 
       setLoading(false);
     });
@@ -49,6 +45,9 @@ const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const signup = async (email: string, password: string) => {
+    if (!auth) {
+      throw new Error("Auth not initialized.");
+    }
     await createUserWithEmailAndPassword(auth, email, password);
   };
 

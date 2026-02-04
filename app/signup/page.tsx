@@ -42,8 +42,10 @@ const Signup = () => {
     }
     try {
       setIsLoading(true);
-      await signup(email, password);
+      const res = await signup(email, password);
+      console.log("SIGNUP RESULT", res);
     } catch (err: any) {
+      console.log("ERROR", err);
       switch (err.code) {
         case "auth/email-already-in-use":
           setError("این ایمیل قبلا ثبت شده است.");

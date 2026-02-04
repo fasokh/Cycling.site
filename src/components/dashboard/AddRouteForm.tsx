@@ -1,11 +1,15 @@
 "use client";
 
+import { useAuth } from "@/src/context/AuthContext";
+import { db } from "@/src/firebase/firebaseConfig";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { useState } from "react";
 
 const AddRouteForm = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [opened, setOpened] = useState(false);
+  const { user } = useAuth();
 
   const descriptionHander = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setDescription(e.target.value);
@@ -15,13 +19,28 @@ const AddRouteForm = () => {
     setTitle(e.target.value);
   };
 
-  const submitFormHandler = (e: React.FormEvent) => {
+  const submitFormHandler = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!title) {
       alert("لطفا نام مسیر را وارد کنید.");
       return;
     }
+    if (!user) {
+      alert("لطفا ابتدا وارد شوید.");
+      return;
+    }
+
+    await addDoc(collection(db, "users", user.id, "routes"), {
+      title: title,
+      description: description,
+      createdAt: serverTimestamp(),
+      gpxUrl: null,
+    });
+
+    setTitle("");
+    setDescription("");
+
     console.log({ title, description });
   };
 
@@ -52,7 +71,7 @@ const AddRouteForm = () => {
             placeholder="توضیحات"
             value={description}
             onChange={descriptionHander}
-            className="outline-none border border-gray-400 rounded-lg p-14"
+            className="outline-none border border-gray-400 rounded-lg p-3 h-26 resize-none"
           />
           <button type="submit">افزودن مسیر</button>
         </form>
