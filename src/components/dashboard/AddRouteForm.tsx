@@ -4,11 +4,14 @@ import { useAuth } from "@/src/context/AuthContext";
 import { db } from "@/src/firebase/firebaseConfig";
 import { addDoc, collection, serverTimestamp } from "firebase/firestore";
 import { useState } from "react";
+import { storage } from "@/src/firebase/firebaseConfig";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 const AddRouteForm = () => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [opened, setOpened] = useState(false);
+  const [gpxFile, setGpxFile] = useState<File | null>(null);
   const { user } = useAuth();
 
   const descriptionHander = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -29,6 +32,18 @@ const AddRouteForm = () => {
     if (!user) {
       alert("لطفا ابتدا وارد شوید.");
       return;
+    }
+
+    let gpxUrl: string | null = null;
+
+    if (gpxFile) {
+      const gpxRef = ref(// یک استوریح میسازه در فایربیس با مسیر مشخص
+        storage,// استوریج
+        `users/${user.id}/routes/${crypto.randomUUID()}.gpx`,//مسیر ذخیره سازی
+      );
+
+      await uploadBytes(gpxRef, gpxFile); //آپلود فایل به اون مسیر ref(storage, path)
+      gpxUrl = await getDownloadURL(gpxRef); // ذخیره کردن آدرس دانلود فایل آپلود شده که بعدا بخواهیم پارس کنیم و نمایش بدیم توسایت
     }
 
     await addDoc(collection(db, "users", user.id, "routes"), {
@@ -72,6 +87,15 @@ const AddRouteForm = () => {
             value={description}
             onChange={descriptionHander}
             className="outline-none border border-gray-400 rounded-lg p-3 h-26 resize-none"
+          />
+          <input
+            type="file"
+            accept=".gpx"
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              if (file) setGpxFile(file);
+            }}
+            className="outline-none border border-gray-400 rounded-lg p-2"
           />
           <button type="submit">افزودن مسیر</button>
         </form>

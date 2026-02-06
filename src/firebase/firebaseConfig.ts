@@ -1,6 +1,7 @@
 // src/firebase/firebaseConfig.ts
 import { initializeApp, getApps } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
+import { getStorage } from "firebase/storage";
 
 // ✅ پیکربندی اصلی پروژه‌ت
 const firebaseConfig = {
@@ -14,10 +15,11 @@ const firebaseConfig = {
 };
 
 // ✅ فقط یک بار initialize بشه
-export const app = !getApps().length ? initializeApp(firebaseConfig) : getApps()[0];
+export const app = !getApps().length
+  ? initializeApp(firebaseConfig)
+  : getApps()[0];
 
 // ✅ Firestore export
 export const db = getFirestore(app);
 
-
-
+export const storage = getStorage(app); //گرفتن استوریج
