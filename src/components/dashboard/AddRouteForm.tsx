@@ -38,7 +38,7 @@ const AddRouteForm = () => {
 
     if (gpxFile) {
       const gpxRef = ref(// یک استوریح میسازه در فایربیس با مسیر مشخص
-        storage,// استوریج
+        storage,//  استوریج رو از firebaseConfig میگیره
         `users/${user.id}/routes/${crypto.randomUUID()}.gpx`,//مسیر ذخیره سازی
       );
 
@@ -50,7 +50,7 @@ const AddRouteForm = () => {
       title: title,
       description: description,
       createdAt: serverTimestamp(),
-      gpxUrl: null,
+      gpxUrl,
     });
 
     setTitle("");
