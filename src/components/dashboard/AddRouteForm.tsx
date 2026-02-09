@@ -37,9 +37,10 @@ const AddRouteForm = () => {
     let gpxUrl: string | null = null;
 
     if (gpxFile) {
-      const gpxRef = ref(// یک استوریح میسازه در فایربیس با مسیر مشخص
-        storage,//  استوریج رو از firebaseConfig میگیره
-        `users/${user.id}/routes/${crypto.randomUUID()}.gpx`,//مسیر ذخیره سازی
+      const gpxRef = ref(
+        // یک استوریح میسازه در فایربیس با مسیر مشخص
+        storage, //  استوریج رو از firebaseConfig میگیره
+        `users/${user.id}/routes/${crypto.randomUUID()}.gpx`, //مسیر ذخیره سازی
       );
 
       await uploadBytes(gpxRef, gpxFile); //آپلود فایل به اون مسیر ref(storage, path)
@@ -57,6 +58,38 @@ const AddRouteForm = () => {
     setDescription("");
 
     console.log({ title, description });
+  };
+
+  const inputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // ذخیره برای آپلود
+    setGpxFile(file);
+
+    // فقط برای تست خواندن
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      const text = reader.result as string;
+
+      const parse = new DOMParser();
+      const xml = parse.parseFromString(text, "text/xml");
+
+      const points = xml.getElementsByTagName("trkpt");
+
+      console.log("POINT COUNT:", points.length);
+
+      if (points.length > 0) {
+        const first = points[0];
+        console.log("FIRST POINTS:", {
+          lat: first.getAttribute("lat"),
+          lng: first.getAttribute("lon"),
+        });
+      }
+    };
+
+    reader.readAsText(file);
   };
 
   return (
@@ -91,10 +124,7 @@ const AddRouteForm = () => {
           <input
             type="file"
             accept=".gpx"
-            onChange={(e) => {
-              const file = e.target.files?.[0];
-              if (file) setGpxFile(file);
-            }}
+            onChange={inputHandler}
             className="outline-none border border-gray-400 rounded-lg p-2"
           />
           <button type="submit">افزودن مسیر</button>
